@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Santhiya WiFi Review</title>
+  <style>
+    :root {
+      --main-brown: #8d7039;
+      --main-brown-dark: #6a4b19;
+      --main-brown-light: #f8f2ea;
+      --brown-border: #bfa679;
+      --main-bg: #f6ecd9; /* เปลี่ยนสีพื้นหลังเป็นโทนน้ำตาลอ่อน */
+      --main-text: #53350a;
+      --button-blue: #282451;
+      --button-brown: #8d7039;
+      --button-brown-hover: #6a4b19;
+    }
+    body {
+      background: var(--main-bg);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      color: var(--main-text);
+    }
+    .container {
+      max-width: 410px;
+      margin: 22px auto;
+      background: #f6ecd9; /* โทนน้ำตาลอ่อน */
+      border-radius: 18px;
+      box-shadow: 0 6px 24px #bfa67922;
+      padding: 0 0 18px 0;
+      border: 4px solid var(--main-brown-light);
+    }
+    .logo-wrap {
+      text-align: center;
+      padding: 30px 0 0 0;
+    }
+    .hotel-logo-img {
+      max-width: 125px;
+      margin: 0 auto 6px auto;
+      display: block;
+    }
+    .hotel-name {
+      font-size: 1.13em;
+      font-weight: 600;
+      color: var(--main-text);
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
+    }
+    .progress-wrap {
+      text-align:center;
+      margin-bottom: 10px;
+    }
+    .progress-label {
+      color: var(--brown-border);
+      font-size: 1em;
+      margin-bottom: 2px;
+      display:block;
+    }
+    .progress-bar-bg {
+      width: 90%;
+      margin: 0 auto;
+      height: 6px;
+      background: var(--brown-border);
+      border-radius: 6px;
+      margin-top: 1px;
+    }
+    .progress-bar-fg {
+      height:6px;
+      border-radius:6px;
+      background: var(--main-brown);
+      width:100%;
+      transition: width 0.2s;
+    }
+    .section {
+      padding: 0 10px;
+      margin-top: 6px;
+    }
+    .desc {
+      color: var(--main-text);
+      font-size:1em;
+      margin-bottom:10px;
+      line-height:1.4;
+      text-align:left;
+    }
+    .score-label {
+      font-size:1em;
+      color: var(--main-text);
+      margin: 10px 0 5px 0;
+      font-weight:600;
+      text-align:left;
+    }
+    .score-row {
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:4px;
+      background: #fff;
+      border: 1px solid var(--brown-border);
+      border-radius: 5px;
+      overflow:hidden;
+    }
+    .score-btn {
+      width: 10%;
+      min-width: 30px;
+      height: 38px;
+      background: #fff;
+      color: var(--main-text);
+      font-size:1.04em;
+      font-weight:600;
+      border:none;
+      border-right: 1px solid var(--brown-border);
+      cursor:pointer;
+      outline:none;
+      transition:background 0.18s, color 0.18s;
+      user-select:none;
+    }
+    .score-btn:last-child {
+      border-right:none;
+    }
+    .score-btn.selected {
+      background: var(--main-brown);
+      color: #fff;
+      position:relative;
+      z-index:2;
+    }
+    .score-status-bar {
+      margin:0 auto 8px auto;
+      background: var(--main-brown);
+      color: #fff;
+      border-radius:6px;
+      font-size:1em;
+      font-weight:500;
+      text-align:center;
+      width:96%;
+      padding:7px 0 5px 0;
+      position:relative;
+      border: none;
+      margin-bottom: 10px;
+    }
+    .comment-label {
+      font-size: 1em;
+      color: var(--main-text);
+      font-weight:600;
+      margin: 12px 0 4px 0;
+      text-align:left;
+    }
+    textarea {
+      width:100%;
+      min-height:44px;
+      border-radius:8px;
+      border:1.5px solid var(--brown-border);
+      font-size:1em;
+      padding:10px 7px;
+      background: #f4ede4;
+      color:var(--main-text);
+      margin-bottom:13px;
+      box-sizing: border-box;
+      resize:vertical;
+      transition: border 0.15s;
+    }
+    textarea:focus {
+      border: 1.5px solid var(--main-brown);
+    }
+    .section-radio {
+      margin:16px 0 8px 0;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+    }
+    .radio-label {
+      font-size:1.02em;
+      color:var(--main-text);
+      font-weight:600;
+      margin-bottom: 4px;
+    }
+    .radio-group {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      gap: 28px;
+    }
+    .radio-group label {
+      font-size: 1em;
+      color: var(--main-text);
+      font-weight:500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+    }
+    .radio-group input[type="radio"] {
+      accent-color: var(--main-brown);
+      width: 16px;
+      height: 16px;
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+    .submit-btn {
+      width:100%;
+      background: var(--button-brown); /* เปลี่ยนสีปุ่มเป็นน้ำตาล */
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      padding:13px 0;
+      font-size:1.07em;
+      font-weight:700;
+      cursor:pointer;
+      transition:background 0.2s;
+      margin:14px 0 0 0;
+      box-shadow:0 2px 8px #b4b8cf27;
+      letter-spacing: 0.2px;
+    }
+    .submit-btn:hover, .submit-btn:active {
+      background: var(--button-brown-hover);
+      color: #fff;
+    }
+    .success {
+      color: #329a3d;
+      text-align:center;
+      margin: 18px 0 0 0;
+      font-weight:600;
+    }
+    .need-help-block {
+      text-align:center;
+      margin-top:18px;
+      margin-bottom: 2px;
+      font-weight:700;
+      font-size:1.07em;
+      color: var(--main-brown);
+      letter-spacing: 0.2px;
+    }
+    .call-btn {
+      display:block;
+      width:98%;
+      margin:8px auto 0 auto;
+      background:#fff;
+      color:var(--main-brown);
+      font-weight:700;
+      text-decoration:none;
+      border-radius:10px;
+      border:2px solid var(--main-brown);
+      padding:13px 0;
+      font-size:1.13em;
+      transition: background 0.15s, color 0.15s;
+      box-shadow:0 1.5px 5px #d8d8d8a0;
+      text-align: center;
+      letter-spacing:0.5px;
+    }
+    .call-btn:hover {
+      background: var(--main-brown-dark);
+      color: #fff;
+    }
+    @media (max-width:500px){
+      .container{margin:0; border-radius:0; box-shadow:none;}
+      .logo-wrap{padding:16px 0 0 0;}
+      .section{padding:0 3vw;}
+      .score-status-bar{font-size:0.96em;}
+      .call-btn{font-size:1em;}
+      .score-btn { min-width: 25px; font-size:1em; height:33px;}
+      .section-radio{
+        margin-top: 16px;
+        margin-bottom: 8px;
+        gap: 7px;
+      }
+      .radio-label{
+        margin-bottom: 2px;
+      }
+      .radio-group{
+        gap: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="logo-wrap">
+    <img class="hotel-logo-img" src="santhiya-logo.png" alt="Santhiya Koh Yao Yai Logo">
+    <div class="hotel-name">Santhiya Koh Yao Yai Resort & Spa</div>
+  </div>
+  <div class="progress-wrap">
+    <span class="progress-label" id="progressText">0% progress</span>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fg" id="progressBar"></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="desc">
+      To improve your experience in our hotels,<br>
+      your feedback matters.
+    </div>
+    <div class="score-label">Your overall score <span style="color:#fa5252">*</span></div>
+    <div class="score-row" id="scoreRow">
+      <button type="button" class="score-btn" data-score="1">1</button>
+      <button type="button" class="score-btn" data-score="2">2</button>
+      <button type="button" class="score-btn" data-score="3">3</button>
+      <button type="button" class="score-btn" data-score="4">4</button>
+      <button type="button" class="score-btn" data-score="5">5</button>
+      <button type="button" class="score-btn" data-score="6">6</button>
+      <button type="button" class="score-btn" data-score="7">7</button>
+      <button type="button" class="score-btn" data-score="8">8</button>
+      <button type="button" class="score-btn" data-score="9">9</button>
+      <button type="button" class="score-btn" data-score="10">10</button>
+    </div>
+    <div class="score-status-bar" id="scoreStatus" style="display:none;">Good</div>
+    <form id="reviewForm" autocomplete="off">
+      <input type="hidden" id="score" name="score" value="0" />
+      <label class="comment-label" for="comment">What could we improve to make your experience worth a 9 or 10?</label>
+      <textarea id="comment" name="comment" placeholder="Let us know your experience..."></textarea>
+      <div class="section-radio">
+        <span class="radio-label">Are you staying at our hotel?</span>
+        <span class="radio-group">
+          <label><input type="radio" name="staying" value="Yes" required> Yes</label>
+          <label><input type="radio" name="staying" value="No"> No</label>
+        </span>
+      </div>
+      <button type="submit" class="submit-btn">Send Review</button>
+      <div class="success" id="successMsg" style="display:none;">Thank you! Your review has been submitted.</div>
+    </form>
+    <div class="need-help-block">Need help?</div>
+    <a class="call-btn" href="tel:076592888">Call 076592888</a>
+    <!-- ลบลิงก์ Google Apps Script Web App API ที่เคย yellow highlight ออก -->
+  </div>
+</div>
+<script>
+  // Progress logic
+  const progressText = document.getElementById('progressText');
+  const progressBar = document.getElementById('progressBar');
+  function setProgress(val) {
+    progressText.textContent = val + "% progress";
+    progressBar.style.width = val + "%";
+  }
+  setProgress(0);
+
+  // Track progress state
+  let progressState = {
+    score: false,
+    comment: false,
+    radio: false
+  };
+
+  // Score buttons
+  const scoreBtns = document.querySelectorAll('.score-btn');
+  const scoreStatus = document.getElementById('scoreStatus');
+  const scoreInput = document.getElementById('score');
+  function getScoreStatus(score) {
+    if(score <= 3) return "Poor";
+    if(score <= 6) return "Fair";
+    if(score <= 8) return "Good";
+    return "Excellent";
+  }
+  function updateProgress() {
+    let percent = 0;
+    if(progressState.score) percent = 50;
+    if(progressState.comment) percent = 80;
+    if(progressState.radio) percent = 100;
+    setProgress(percent);
+  }
+  scoreBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      scoreBtns.forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      scoreInput.value = this.dataset.score;
+      // show status
+      scoreStatus.textContent = getScoreStatus(Number(this.dataset.score));
+      scoreStatus.style.display = "block";
+      progressState.score = true;
+      updateProgress();
+    });
+  });
+
+  // Comment progress
+  const commentInput = document.getElementById('comment');
+  commentInput.addEventListener('input', function() {
+    progressState.comment = (this.value.trim().length > 0);
+    updateProgress();
+  });
+
+  // Radio progress
+  const radios = document.querySelectorAll('input[name="staying"]');
+  radios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      progressState.radio = true;
+      updateProgress();
+    });
+  });
+
+  // Submit review to Google Sheets (via Apps Script)
+  document.getElementById('reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const score = scoreInput.value;
+    const comment = document.getElementById('comment').value;
+    const staying = document.querySelector('input[name="staying"]:checked');
+    if(!score || score === "0") {
+      alert('Please select your overall score.');
+      return;
+    }
+    if(!staying) {
+      alert('Please answer: Are you staying at our hotel?');
+      return;
+    }
+    // ส่งข้อมูลไป Apps Script Web App
+    fetch("https://script.google.com/macros/s/AKfycbxllPfZJYXY0ElS6cPnAnE5FHb_LY90vndUrnAJRO6qJ5SV-EATXpafhg85o7_cul9o/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "score=" + encodeURIComponent(score) +
+            "&comment=" + encodeURIComponent(comment) +
+            "&staying=" + encodeURIComponent(staying.value)
+    });
+    document.getElementById('successMsg').style.display = "block";
+    setTimeout(() => {
+      window.location.href = "https://www.santhiya.com";
+    }, 900);
+  });
+</script>
+</body>
+</html>
