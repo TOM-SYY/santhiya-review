@@ -10,9 +10,8 @@
       --main-brown-dark: #6a4b19;
       --main-brown-light: #f8f2ea;
       --brown-border: #bfa679;
-      --main-bg: #f6ecd9; /* เปลี่ยนสีพื้นหลังเป็นโทนน้ำตาลอ่อน */
+      --main-bg: #f6ecd9;
       --main-text: #53350a;
-      --button-blue: #282451;
       --button-brown: #8d7039;
       --button-brown-hover: #6a4b19;
     }
@@ -25,7 +24,7 @@
     .container {
       max-width: 410px;
       margin: 22px auto;
-      background: #f6ecd9; /* โทนน้ำตาลอ่อน */
+      background: #f6ecd9;
       border-radius: 18px;
       box-shadow: 0 6px 24px #bfa67922;
       padding: 0 0 18px 0;
@@ -196,9 +195,36 @@
       margin-right: 2px;
       vertical-align: middle;
     }
+    .room-number-group {
+      display:none;
+      margin-top:10px;
+      width:100%;
+    }
+    .room-number-group label {
+      font-size: 1em;
+      color: var(--main-text);
+      font-weight:600;
+      margin-bottom:4px;
+      display:block;
+    }
+    .room-number-group input {
+      width:100%;
+      border-radius:8px;
+      border:1.5px solid var(--brown-border);
+      font-size:1em;
+      padding:10px 7px;
+      background: #f4ede4;
+      color:var(--main-text);
+      margin-bottom:13px;
+      box-sizing: border-box;
+      transition: border 0.15s;
+    }
+    .room-number-group input:focus {
+      border: 1.5px solid var(--main-brown);
+    }
     .submit-btn {
       width:100%;
-      background: var(--button-brown); /* เปลี่ยนสีปุ่มเป็นน้ำตาล */
+      background: var(--button-brown);
       color:#fff;
       border:none;
       border-radius:8px;
@@ -313,13 +339,16 @@
           <label><input type="radio" name="staying" value="Yes" required> Yes</label>
           <label><input type="radio" name="staying" value="No"> No</label>
         </span>
+        <div id="roomNumberGroup" class="room-number-group">
+          <label for="roomNumber">Room Number</label>
+          <input type="text" id="roomNumber" name="roomNumber" placeholder="Enter your room number">
+        </div>
       </div>
       <button type="submit" class="submit-btn">Send Review</button>
       <div class="success" id="successMsg" style="display:none;">Thank you! Your review has been submitted.</div>
     </form>
     <div class="need-help-block">Need help?</div>
     <a class="call-btn" href="tel:076592888">Call 076592888</a>
-    <!-- ลบลิงก์ Google Apps Script Web App API ที่เคย yellow highlight ออก -->
   </div>
 </div>
 <script>
@@ -376,12 +405,18 @@
     updateProgress();
   });
 
-  // Radio progress
+  // Radio progress & show room number input if Yes
   const radios = document.querySelectorAll('input[name="staying"]');
+  const roomNumberGroup = document.getElementById('roomNumberGroup');
   radios.forEach(radio => {
     radio.addEventListener('change', function() {
       progressState.radio = true;
       updateProgress();
+      if (this.value === "Yes") {
+        roomNumberGroup.style.display = "block";
+      } else {
+        roomNumberGroup.style.display = "none";
+      }
     });
   });
 
@@ -391,12 +426,18 @@
     const score = scoreInput.value;
     const comment = document.getElementById('comment').value;
     const staying = document.querySelector('input[name="staying"]:checked');
+    const roomNumber = document.getElementById('roomNumber').value || '';
     if(!score || score === "0") {
       alert('Please select your overall score.');
       return;
     }
     if(!staying) {
       alert('Please answer: Are you staying at our hotel?');
+      return;
+    }
+    if(staying.value === "Yes" && !roomNumber.trim()) {
+      alert('Please enter your room number.');
+      document.getElementById('roomNumber').focus();
       return;
     }
     // ส่งข้อมูลไป Apps Script Web App
@@ -406,7 +447,8 @@
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: "score=" + encodeURIComponent(score) +
             "&comment=" + encodeURIComponent(comment) +
-            "&staying=" + encodeURIComponent(staying.value)
+            "&staying=" + encodeURIComponent(staying.value) +
+            "&roomNumber=" + encodeURIComponent(roomNumber)
     });
     document.getElementById('successMsg').style.display = "block";
     setTimeout(() => {
